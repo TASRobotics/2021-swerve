@@ -3,6 +3,7 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import edu.wpi.first.wpiutil.math;
 
 public class Module {
     
@@ -24,6 +25,12 @@ public class Module {
     private static final double FALCON_TICKS = 2048;
     private static final double ROTOR_RATIO = 12;
     private static final double ROTOR_ANGLE_RATIO = ROTOR_RATIO * FALCON_TICKS;
+    private static final double DEGREES_IN_REV = 360;
+    private static final double MAX_MOTOR_RPM = 6300;
+    private static final double SECONDS_IN_MINUTE = 60;
+    private static final double MAX_MOTOR_SPEED = FALCON_TICKS*MAX_MOTOR_RPM/(10*SECONDS_IN_MINUTE);
+
+
 
     /**
      * Called at the start of autonomous or teleop.
@@ -103,6 +110,15 @@ public class Module {
         
     }
     
+    /**
+     * Sets the module to a 2-D target velocity.  Input array should have magnitude less than 1
+     */
+    public void setVectorVelocity(double[] V){
+        this.setRotorPos(DEGREES_IN_REV/(2*Math.PI)*Math.atan2(V[1], V[0]));
+        this.setMotorVelocity(Math.sqrt(Math.pow(V[0],2)+Math.pow(V[1],2))*MAX_MOTOR_SPEED);
+    }
+
+
     /**
      * Runs components in the submodule that have continuously changing 
      * inputs.
