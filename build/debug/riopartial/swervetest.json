@@ -1,0 +1,9 @@
+[
+  {
+    "artifact": "frcJava (in project swervetest)",
+    "target": "roborio",
+    "debugfile": "frcJava_roborio.debugconfig",
+    "project": "swervetest",
+    "language": "java"
+  }
+]
