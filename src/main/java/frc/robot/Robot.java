@@ -34,7 +34,10 @@ public class Robot extends TimedRobot {
   Module iii = new Module();
   Module iv = new Module();
   Module d = i;
-  Teleop teleop = new Teleop(i, ii, iii, iv);
+  Swerve swerve;
+  double y;
+  double x;
+  double r;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -42,7 +45,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    Teleop.init();
+    swerve = new Swerve();
+    int[] ids ={0,1,2,3,4,5,6,7};
+    double[] angles = {45,135,225,315};
+    swerve.onInit(ids, angles);
     /**
     s.configFactoryDefault();
     s.setNeutralMode(NeutralMode.Coast);
@@ -104,11 +110,20 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
   }
 
+  private double deadband(double yee) {
+    if(Math.abs(yee) < 0.15)yee=0;
+    return yee; 
+  }
+
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
+    y = deadband(c.getY(Hand.kLeft));
+    x = deadband(c.getX(Hand.kLeft));
+    r = deadband(c.getX(Hand.kRight));
+    swerve.Drive(x,y,r);
     
     //r.set(ControlMode.MotionMagic, c.getY(Hand.kLeft)*10000);
     //s.set(ControlMode.PercentOutput, c.getY(Hand.kRight));

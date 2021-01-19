@@ -3,8 +3,6 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import edu.wpi.first.wpiutil.math;
-import edu;
 
 
 public class Module {
@@ -75,6 +73,7 @@ public class Module {
                 motor.selectProfileSlot(0, 0);
             break;
             case VELOCITY:            
+            
                 motor.selectProfileSlot(1, 0);
             break;
         }
@@ -85,12 +84,13 @@ public class Module {
  * @param pos the position to go to in units of full rotations
  */
     public void setRotorPos(double pos) {
+        pos = pos / 360;
         double dPos = pos - getAngle();
         dPos = dPos % 1;
         if (dPos < 0) dPos += 1;
         dPos -= 0.25; // range: [0.25, 0.75)
         if (dPos > 0.25) dPos = reverseMotor(dPos);
-        rotorTargPos = dPos + getAngle();
+        rotorTargPos = pos;//dPos + getAngle();
     }
 
     private double reverseMotor(double dPos) {
