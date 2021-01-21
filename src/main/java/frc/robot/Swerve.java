@@ -18,6 +18,7 @@ public class Swerve {
     }
   };
 
+  private static final double[] INIT_MODULES_DEGREES = new double[] {102,203,37,314};
   private int numMotors;
   private static Module d;
   private Module[] modules = new Module[4];
@@ -33,7 +34,7 @@ public class Swerve {
     for (int i = 0; i < this.numMotors / 2; i++) {
       this.modules[i] = new Module();
       int[] motornums = new int[] { motorarray[2 * i], motorarray[2 * i + 1] };
-      this.modules[i].onInit(motornums);
+      this.modules[i].onInit(motornums,i+1,INIT_MODULES_DEGREES[i]);
 
       
       double moduleAngle = Math.PI / 4 + Math.PI / 2 * i;
@@ -47,8 +48,7 @@ public class Swerve {
 
   public void Drive(double Vx, double Vy, double omega) {
     for (int i = 0; i < modules.length; i++) {
-      double[] totalV = new double[] { Vx - omega * rotV[i][0], Vy - omega * rotV[i][1] };
-      modules[i].setVectorVelocity(totalV);
+      modules[i].setVectorVelocity(Vx - omega * rotV[i][0],Vy - omega * rotV[i][1] );
       modules[i].run();
     }
   }

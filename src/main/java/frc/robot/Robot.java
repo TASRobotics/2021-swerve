@@ -123,7 +123,7 @@ public class Robot extends TimedRobot {
     y = deadband(c.getY(Hand.kLeft));
     x = deadband(c.getX(Hand.kLeft));
     r = deadband(c.getX(Hand.kRight));
-    swerve.Drive(x,y,r);
+    swerve.Drive(x,-y,r);
     
     //r.set(ControlMode.MotionMagic, c.getY(Hand.kLeft)*10000);
     //s.set(ControlMode.PercentOutput, c.getY(Hand.kRight));
